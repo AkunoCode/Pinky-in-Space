@@ -21,9 +21,24 @@ playerY = 480
 # Change in coordinate
 playerX_change = 0
 
+
+# Add Enemy
+enemyIMG = pygame.image.load('Images\monster_Enemy.png')
+enemyIMG = pygame.transform.scale(enemyIMG, (100,75)) # Resize the image
+
+# Enemy default coordinates related to screen size (x = 800, y = 600)
+enemyX = 350
+enemyY = 50
+# Change in coordinate
+enemyX_change = 0
+
 def player(x,y): # takes x and y as parameter to change position
-    # Screen.blit() draws the image of the player.
+    # Screen.blit() draws the image of the enemy.
     screen.blit(playerIMG,(x,y))
+
+def enemy(x,y): # takes x and y as parameter to change position
+    # Screen.blit() draws the image of the enemy.
+    screen.blit(enemyIMG,(x,y))
 
 # Game Loop
 running = True
@@ -57,6 +72,7 @@ while running:
         playerX = 675
 
     # Call the player
-    player(playerX,playerY)
+    player(playerX, playerY)
+    enemy(enemyX, enemyY)
     pygame.display.update() # Update the display.
 
