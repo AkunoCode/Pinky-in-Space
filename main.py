@@ -12,7 +12,13 @@ pygame.display.set_caption("Pinky in Space")
 icon = pygame.image.load('Images\space-pig_icon.png')
 pygame.display.set_icon(icon)
 
-# Add Player
+
+# Background ----------------------------------------------
+background = pygame.image.load('Images\space_Background.jpg')
+background = pygame.transform.scale(background, (800,600))
+
+
+# Add Player -----------------------------------------------
 playerIMG = pygame.image.load('Images\pig_spaceship_Player.png')
 playerIMG = pygame.transform.scale(playerIMG, (125,75)) # Resize the image
 
@@ -23,7 +29,7 @@ playerY = 480
 playerX_change = 0
 
 
-# Add Enemy
+# Add Enemy -----------------------------------------------------------------------
 enemyIMG = pygame.image.load('Images\monster_Enemy.png')
 enemyIMG = pygame.transform.scale(enemyIMG, (100,75)) # Resize the image
 
@@ -31,9 +37,10 @@ enemyIMG = pygame.transform.scale(enemyIMG, (100,75)) # Resize the image
 enemyX = random.randint(0,700)
 enemyY = random.randint(50,150)
 # Change in coordinate
-enemyX_change = 0.3
+enemyX_change = 0.2
 enemyY_change = 15
 
+# Functions -----------------------------------------------------------------------
 def player(x,y): # takes x and y as parameter to change position
     # Screen.blit() draws the image of the enemy.
     screen.blit(playerIMG,(x,y))
@@ -42,12 +49,14 @@ def enemy(x,y): # takes x and y as parameter to change position
     # Screen.blit() draws the image of the enemy.
     screen.blit(enemyIMG,(x,y))
 
-# Game Loop
+# Game Loop ------------------------------------------------------------------------
 running = True
 while running:
     
     # Change screen color = RGB
     screen.fill((0,0,0))
+    # Background Image
+    screen.blit(background,(0,0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -64,26 +73,23 @@ while running:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a or event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                 playerX_change = 0.0
 
-    # Move by change
+    # Movement and Boundaries for player ---------------------------------------------------------
     playerX += playerX_change
-
-    # Boundaries for player
     if playerX <= 0:
         playerX = 0
     elif playerX >= 675: # 675 because the player image is 125width (800 - 125 = 675)
         playerX = 675
 
+    # Movement and Boundaries for enemy ----------------------------------------------------------
     enemyX += enemyX_change
-
-    # Boundaries for enemy
     if enemyX <= 0:
-        enemyX_change = 0.3
+        enemyX_change = 0.2
         enemyY += enemyY_change
     elif enemyX >= 700: # 675 because the player image is 125width (800 - 125 = 675)
-        enemyX_change = -0.3
+        enemyX_change = -0.2
         enemyY += enemyY_change
 
-    # Call the player
+    # Call the player and enemies -------------------------------------------------------------------
     player(playerX, playerY)
     enemy(enemyX, enemyY)
     pygame.display.update() # Update the display.
