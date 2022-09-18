@@ -135,9 +135,9 @@ while running:
         playerX = 675
 
     # Movement and Boundaries for enemy ----------------------------------------------------------
-    for i in range(len(enemyIMG)+score_value):
+    for i in range(num_of_enemies):
 
-        if enemyY[i] > 440:
+        if enemyY[i] > 420:
             for j in range(num_of_enemies):
                 enemyY[j] == 2000
             gameover_text()
