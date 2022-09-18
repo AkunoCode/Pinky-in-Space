@@ -8,3 +8,5 @@ Follow along Pinky on her space adventure! <br>
 
 This is my first attempt in learning how to create a game using PyGame. Since this is just my first attempt, there might be errors, bugs, or things that needs to be improved or changed in this game, I hope you could point those out by sending me a message, either through github or my email [echevariajohnleo@gmail.com](mailto:echevariajohnleo@gmail.com).<br>
 **Thank you~!**
+
+Game created following the [Pygame Tutorial for Beginners](https://www.youtube.com/watch?v=FfWpgLFMI7w) by freecodecamp.org
