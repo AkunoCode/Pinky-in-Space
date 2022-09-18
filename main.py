@@ -28,16 +28,24 @@ playerY = 480
 playerX_change = 0
 
 # Add Enemy -----------------------------------------------------------------------
-enemyIMG = pygame.image.load('Images\monster_Enemy.png')
-enemyIMG = pygame.transform.scale(enemyIMG, (75,60)) # Resize the image
+enemyIMG = []
+enemyX = []
+enemyY = []
+enemyX_change = []
+enemyY_change = []
+num_of_enemies = 6
 
-# Enemy default coordinates related to screen size (x = 800, y = 600)
-enemyX = random.randint(0,700)
-enemyY = random.randint(50,150)
+for i in range(num_of_enemies):
+    enemy = pygame.image.load('Images\monster_Enemy.png')
+    enemyIMG.append(pygame.transform.scale(enemy, (75,60))) # Resize the image
 
-# Change in coordinate
-enemyX_change = 0.2
-enemyY_change = 15
+    # Enemy default coordinates related to screen size (x = 800, y = 600)
+    enemyX.append(random.randint(0,700))
+    enemyY.append(random.randint(50,150))
+
+    # Change in coordinate
+    enemyX_change.append(0.2)
+    enemyY_change.append(40)
 
 # Add Bullet -----------------------------------------------------------------------
 bulletIMG = pygame.image.load('Images/bacon_Bullet.png')
@@ -59,9 +67,9 @@ def player(x,y): # takes x and y as parameter to change position
     # Screen.blit() draws the image of the enemy.
     screen.blit(playerIMG,(x,y))
 
-def enemy(x,y): # takes x and y as parameter to change position
+def enemy(x,y,i): # takes x and y as parameter to change position
     # Screen.blit() draws the image of the enemy.
-    screen.blit(enemyIMG,(x,y))
+    screen.blit(enemyIMG[i],(x,y))
 
 def fire_bullet(x,y):
     global bullet_state
@@ -70,7 +78,7 @@ def fire_bullet(x,y):
 
 def isCollision(enemyY, enemyX, bulletY, bulletX):
     distance = sqrt(((enemyX - bulletX)**2) + ((enemyY - bulletY)**2))
-    if distance < 40:
+    if distance < 50:
         return True
     else:
         return False
@@ -114,13 +122,24 @@ while running:
         playerX = 675
 
     # Movement and Boundaries for enemy ----------------------------------------------------------
-    enemyX += enemyX_change
-    if enemyX <= 0:
-        enemyX_change = 0.2
-        enemyY += enemyY_change
-    elif enemyX >= 700: # 675 because the player image is 125width (800 - 125 = 675)
-        enemyX_change = -0.2
-        enemyY += enemyY_change
+    for i in range(num_of_enemies):
+        enemyX[i] += enemyX_change[i]
+        if enemyX[i] <= 0:
+            enemyX_change[i] = 0.2
+            enemyY[i] += enemyY_change[i]
+        elif enemyX[i] >= 700: # 675 because the player image is 125width (800 - 125 = 675)
+            enemyX_change[i] = -0.2
+            enemyY[i] += enemyY_change[i]
+        # Collision --------------------------------------------------------------------------
+        collision = isCollision(enemyY[i],enemyX[i],bulletY,bulletX)
+        if collision:
+            bulletY = 480
+            bullet_state = "ready"
+            score += 1
+            enemyX[i] = random.randint(0,700)
+            enemyY[i] = random.randint(50,150) 
+            print(score)
+        enemy(enemyX[i], enemyY[i], i)
 
     # Bullet Movement -----------------------------------------------------------------------
     if bulletY <= 0:
@@ -130,19 +149,7 @@ while running:
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
     
-    # Collision
-    collision = isCollision(enemyY,enemyX,bulletY,bulletX)
-    if collision:
-        bulletY = 480
-        bullet_state = "ready"
-        score += 1
-        enemyX = random.randint(0,700)
-        enemyY = random.randint(50,150) 
-        print(score)
-
-
     # Call the player and enemies -------------------------------------------------------------------
     player(playerX, playerY)
-    enemy(enemyX, enemyY)
     pygame.display.update() # Update the display.
 
