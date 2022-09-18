@@ -1,3 +1,4 @@
+from math import sqrt
 import random
 import pygame
 
@@ -28,7 +29,7 @@ playerX_change = 0
 
 # Add Enemy -----------------------------------------------------------------------
 enemyIMG = pygame.image.load('Images\monster_Enemy.png')
-enemyIMG = pygame.transform.scale(enemyIMG, (100,75)) # Resize the image
+enemyIMG = pygame.transform.scale(enemyIMG, (75,60)) # Resize the image
 
 # Enemy default coordinates related to screen size (x = 800, y = 600)
 enemyX = random.randint(0,700)
@@ -51,6 +52,7 @@ bulletX_change = 0.2
 bulletY_change = 0.5
 bullet_state = "ready" # ready means you can't see the bullet and fire is the opposite
 
+score = 0
 
 # Functions -----------------------------------------------------------------------
 def player(x,y): # takes x and y as parameter to change position
@@ -65,6 +67,13 @@ def fire_bullet(x,y):
     global bullet_state
     bullet_state = "fire"
     screen.blit(bulletIMG,(x + 50, y + 10))
+
+def isCollision(enemyY, enemyX, bulletY, bulletX):
+    distance = sqrt(((enemyX - bulletX)**2) + ((enemyY - bulletY)**2))
+    if distance < 40:
+        return True
+    else:
+        return False
 
 
 # Game Loop ------------------------------------------------------------------------
@@ -88,7 +97,7 @@ while running:
                 playerX_change = 0.3
             if event.key == pygame.K_SPACE:
                 # checks first if the bullet is not in fired state.
-                if bullet_state is "ready":
+                if bullet_state == "ready":
                     # gets the current x-axis coordinate and assigns to bulletx
                     bulletX = playerX
                     fire_bullet(bulletX, bulletY)
@@ -113,13 +122,24 @@ while running:
         enemyX_change = -0.2
         enemyY += enemyY_change
 
-    # Bullet Movement -------------------------------------------------------
+    # Bullet Movement -----------------------------------------------------------------------
     if bulletY <= 0:
         bulletY = 480
         bullet_state = "ready"
-    if bullet_state is "fire":
+    if bullet_state == "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
+    
+    # Collision
+    collision = isCollision(enemyY,enemyX,bulletY,bulletX)
+    if collision:
+        bulletY = 480
+        bullet_state = "ready"
+        score += 1
+        enemyX = random.randint(0,700)
+        enemyY = random.randint(50,150) 
+        print(score)
+
 
     # Call the player and enemies -------------------------------------------------------------------
     player(playerX, playerY)
