@@ -39,7 +39,7 @@ while running:
         # To check if keystroke is pressed and whether its right or left
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                playerX_change = -0.2
+                playerX_change = - 0.2
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                 playerX_change = 0.2
         # To check if keystroke is released
@@ -49,6 +49,13 @@ while running:
 
     # Move by change
     playerX += playerX_change
+
+    # Boundaries
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 675: # 675 because the player image is 125width (800 - 125 = 675)
+        playerX = 675
+
     # Call the player
     player(playerX,playerY)
     pygame.display.update() # Update the display.
