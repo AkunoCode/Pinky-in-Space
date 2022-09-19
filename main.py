@@ -9,15 +9,15 @@ screen = pygame.display.set_mode((800,600))
 
 # Title and Icon -------------------------------------------
 pygame.display.set_caption("Pinky in Space")
-icon = pygame.image.load('Images\space-pig_icon.png')
+icon = pygame.image.load('Pinky_in_Space\Images\space-pig_Icon.png')
 pygame.display.set_icon(icon)
 
 # Background ----------------------------------------------
-background = pygame.image.load('Images\space_Background.jpg')
+background = pygame.image.load('Pinky_in_Space\Images\space_Background.jpg')
 background = pygame.transform.scale(background, (800,600))
 
 # Add Player -----------------------------------------------
-playerIMG = pygame.image.load('Images\pig_spaceship_Player.png')
+playerIMG = pygame.image.load('Pinky_in_Space\Images\pig_spaceship_Player.png')
 playerIMG = pygame.transform.scale(playerIMG, (125,75)) # Resize the image
 
 # Player default coordinates related to screen size (x = 800, y = 600)
@@ -36,7 +36,7 @@ enemyY_change = []
 num_of_enemies = 6
 
 for i in range(num_of_enemies):
-    enemy = pygame.image.load('Images\monster_Enemy.png')
+    enemy = pygame.image.load('Pinky_in_Space\Images\monster_Enemy.png')
     enemyIMG.append(pygame.transform.scale(enemy, (75,60))) # Resize the image
 
     # Enemy default coordinates related to screen size (x = 800, y = 600)
@@ -48,7 +48,7 @@ for i in range(num_of_enemies):
     enemyY_change.append(50)
 
 # Add Bullet -----------------------------------------------------------------------
-bulletIMG = pygame.image.load('Images/bacon_Bullet.png')
+bulletIMG = pygame.image.load('Pinky_in_Space\Images\\bacon_Bullet.png')
 bulletIMG = pygame.transform.scale(bulletIMG, (25,50)) # Resize the image
 
 # Enemy default coordinates related to screen size (x = 800, y = 600)
